@@ -6,10 +6,11 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IColorService
+    public interface IRentalService
     {
-        IDataResult< List<Color>> GetAll();
-       IDataResult<Color> getbyId(int id);
-        IResult Add(Color color);
+        IDataResult<List<Rentals>> GetAll();
+        IDataResult<Rentals> GetByCarId(int id);
+
+        IResult Add(Rentals rental);
     }
 }

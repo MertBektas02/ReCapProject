@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entity.Concrete;
 using Entity.DTOs;
@@ -19,19 +21,38 @@ namespace Business.Concrete
             _CarDal = carDal;
         }
 
-        public List<CarEntity> GetAll()
+        public IResult Add(CarEntity car)
         {
-            return _CarDal.GetAll();
+            _CarDal.Add(car);
+            return new SuccessResult();
+            if (car.CarName.Length>2)  //bu niye unreacable code oluyor? MyFinalProject'te de unreacable code olmuştu.
+            {
+                return new ErrorResult(Messages.Invalid);
+            }
+            else
+            {
+                return new SuccessResult(Messages.CarAdded);
+            }
         }
 
-        public CarEntity getbyId(int id)
+        public IDataResult< List<CarEntity>> GetAll()
         {
-            return _CarDal.Get(p => p.CarID == id);
+            if (DateTime.Now.Hour==22)
+            {
+                return new ErrorDataResult<List<CarEntity>>(Messages.MaintenanceTime);
+            }
+
+            return new SuccessDataResult<List<CarEntity>>(_CarDal.GetAll(), Messages.CarListed);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<CarEntity> getbyId(int id)
         {
-            return _CarDal.GetCarDetails();
+            return new SuccessDataResult<CarEntity>( _CarDal.Get(p => p.CarID == id));
+        }
+
+        public IDataResult< List<CarDetailDto>> GetCarDetails()
+        {
+            return new SuccessDataResult<List<CarDetailDto>>( _CarDal.GetCarDetails());
         }
     }
 }

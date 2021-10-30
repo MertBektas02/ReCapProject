@@ -31,11 +31,12 @@ namespace DataAccess.Concrete.Entityframework
                                  CarName = p.CarName,
                                  DailyPrice = p.DailyPrice,
                                  ColorID = c.ID,
-                                 Description = p.Description
+                                 Description = p.Description,
+                                 BrandID = d.Id
 
                              };
                 return result.ToList();
             }
         }
     }
-}  //halen EfColor ve EfBrandDal classlarını oluşturmadım. İhtiyaç duyarsam oluşturacağım.
+}  
